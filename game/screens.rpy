@@ -212,13 +212,13 @@ screen choice(items):
             textbutton i.caption action i.action
 
 
-style choice_vbox is vbox
+style choice_vbox is hbox
 style choice_button is button
 style choice_button_text is button_text
 
 style choice_vbox:
     xalign 0.5
-    ypos 405
+    ypos 900
     yanchor 0.5
 
     spacing gui.choice_spacing

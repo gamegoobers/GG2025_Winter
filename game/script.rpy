@@ -25,6 +25,19 @@ label start:
     # These display lines of dialogue.
     "{i}This is the beginning of Divorced Dad Sim (Title Pending)"
 
+## ====  Example Choice menu code ===== ##
+    # window hide dissolve
+    # menu:
+    #     "Choice 1":
+    #         pass
+
+    #     "Choice 2":
+    #         pass
+
+    #     "Choice 3":
+    #         pass
+## =================================== ##
+
     show kid temp at center
 
     kid "coding with RenPy is definitely gonna need some getting used to"
