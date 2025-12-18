@@ -10,12 +10,18 @@ define dad = Character("Dad", color="#0037ff")
 image bg frontdoor = im.Scale("bg tempfrontdoor.png", 1920, 1080)
 image bg doorway = im.Scale("bg doorway.png", 1920, 1080)
 image bg kitchen = im.Scale("bg kitchen.png", 1920, 1080)
+image bg diningtable = im.Scale("bg diningtable.png", 1920, 1080)
+image table = im.Scale("table.png", 1920, 1080)
 
 init:
     $ performance = 0
 
 transform halfsize:
     zoom 0.5
+
+transform diningposition:
+    xalign 0.5
+    yalign 0.4
 
 # The game starts here.
 label start:
@@ -101,7 +107,7 @@ label start:
 
 label junction:
 
-    show bg doorway with dissolve
+    scene bg doorway with dissolve
 
     show kid neutral temp at halfsize, center with move
 
@@ -134,20 +140,22 @@ label dog:
 
 label kitchen:    
 
-    show bg kitchen with dissolve
+    scene bg kitchen with dissolve
 
     call screen foodselection
 
     call screen microwavegame
 
-    show kid neutral temp at halfsize, center with move
+    scene bg diningtable
+    show table at center 
+    with dissolve
     
-    # Dislike Food
+    # Like Food
     if foodchoice == 3:
 
         $ performance += 2
         
-        show kid hopeful temp
+        show kid hopeful temp behind table at halfsize, diningposition with moveinleft
 
         kid "Well... {w}I'm happy that you remembered my favorite food."
 
@@ -158,18 +166,18 @@ label kitchen:
 
         $ performance += 1
 
-        show kid neutral temp
+        show kid neutral temp at halfsize, diningposition with moveinleft
 
         kid "I wouldn't say food is my favourite..."
 
         dad "I thought you liked it the last time I made it..."
 
-    # Likes Food
+    # Dislike Food
     else:
 
         $ performance += 0
 
-        show kid disappointed temp
+        show kid disappointed temp at halfsize, diningposition with moveinleft
 
         kid "Um... {w}maybe I didn't say it before but I don't really like food"
 
@@ -177,11 +185,13 @@ label kitchen:
 
     kid "{alpha=0.5}*munch munch"
 
-    dad "So... {w} How was it?"
+    dad "So... {w}How was it?"
     # Perfect Performance
     if abs(5.0 - microwave_time) <= 1.0:
 
         $ performance += 2
+
+        $ culinary_expert = True
 
         show kid hopeful temp
 
