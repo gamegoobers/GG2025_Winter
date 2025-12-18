@@ -11,6 +11,9 @@ image bg frontdoor = im.Scale("bg tempfrontdoor.png", 1920, 1080)
 image bg doorway = im.Scale("bg doorway.png", 1920, 1080)
 image bg kitchen = im.Scale("bg kitchen.png", 1920, 1080)
 
+init:
+    $ performance = 0
+
 # The game starts here.
 label start:
 
@@ -40,9 +43,58 @@ label start:
     #         pass
 ## =================================== ##
 
+    "{i}You are suddenly woken up by a text on your phone"
+
+    "{i}you check your phone screen and read a text from your ex-wife"
+
+    "\"By the way, just dropped off K. {w}First time in a while he's spending his birthday with you, huh?\""
+
+    dad "{alpha=0.5}It's his birthday?" with hpunch
+
+    # play sound "door knocking sound effect"
+
+    dad "{alpha=0.5}What time is it?"
+
+    "{i}[[12:04 PM, July 16th]"
+
+    dad "{alpha=0.5}He's here? {w}But I have nothing prepared!"
+
+    "{i}You run to the door and let your son in..."
+
     show kid temp at center with dissolve
 
-    kid "coding with RenPy is definitely gonna need some getting used to"
+    dad "Hey Kiddo... {w}another year, {w}another..."
+
+    window hide dissolve
+    menu:
+        "June 16th":
+            $ performance += 0
+        "July 16th":
+            $ performance += 1
+        "July 15th":
+            $ performance += 0
+            
+    if performance == 1:
+
+        kid "Yeah, {w}another year..."
+
+    else:
+
+        kid "Uh... {w}not quite..."
+
+        dad "oh... {w}sorry Kiddo..."
+
+    dad "How does some homemade lunch sound? {w}And of course, {w}I've got your present ready to go too!"
+    
+    dad "{alpha=0.5}Wait, I don't... {w}what am I going to do?"
+
+    kid "Yeah, sounds cool. {w}I have homework due soon so I asked Mom to pick me up at 3."
+
+    dad "Alright, no problem. Let's make your favourite meal together."
+
+    dad "{alpha=0.5}What did he like to eat again?"
+
+    kid "Ok"
 
 label junction:
 
@@ -84,19 +136,60 @@ label kitchen:
     call screen microwavegame
 
     show kid at center with move
+    
+    # Dislike Food
+    if foodaffinity == 0:
 
-    if (abs(5.0 - microwave_time) < 0.3):
+        $ performance += 0
 
-        $ culinary_expert = True
+        kid "Um... {w}maybe I didn't say it before but I don't really like food"
 
-        kid "yo we got a culinary expert over here"
+        dad "Really? {w}Why didn't you tell me?"
+    # Tolerate Food
+    elif foodaffinity == 1:
 
+        $ performance += 1
+
+        kid "I wouldn't say food is my favourite..."
+
+        dad "I thought you liked it the last time I made it..."
+    # Likes Food
     else:
 
-        $ culinary_expert = False
+        $ performance += 2
 
-        kid "booo you stink"
-    
+        kid "Well... {w}I'm happy that you remembered my favorite food."
+
+        dad "Of course I'd remember!"
+
+    kid "{alpha=0.5}*munch munch"
+
+    dad "So... {w} How was it?"
+    # Perfect Performance
+    if abs(15.0 - microwave_time) <= 1.0:
+
+        $ performance += 2
+
+        kid "It's good... {w}not over or undercooked like the last couple of times"
+
+        dad "RESPONSE"
+    # Good Performance
+    elif abs(15.0 - microwave_time) <= 3.0:
+
+        $ performance += 1
+
+        kid "It's palatable, I'll get used to it"
+
+        dad "RESPONSE"
+    # Bad Performance
+    else:
+
+        $ performance += 0
+
+        kid "I'm not too hungry right now, can I get it in a container to bring home?"
+
+        dad "RESPONSE"
+
     jump junction
 
 screen example():
@@ -107,6 +200,7 @@ default microwave_time = 0.0
 default start_timer = False
 default game_started = False
 default culinary_expert = False
+default foodaffinity = 0
 screen microwavegame():
     on "show" action [SetVariable("microwave_time", 0.0), SetVariable("start_timer", False), SetVariable("game_started", False), SetVariable("culinary_expert", False)]
     frame:
