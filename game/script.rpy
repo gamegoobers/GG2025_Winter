@@ -9,6 +9,7 @@ define dad = Character("Dad", color="#0037ff")
 # Declare Backgrounds
 image bg frontdoor = im.Scale("bg tempfrontdoor.png", 1920, 1080)
 image bg doorway = im.Scale("bg doorway.png", 1920, 1080)
+image bg bedroom = im.Scale("bg bedroom.png", 1920, 1080)
 image bg kitchen = im.Scale("bg kitchen.png", 1920, 1080)
 image bg diningtable = im.Scale("bg diningtable.png", 1920, 1080)
 image table = im.Scale("table.png", 1920, 1080)
@@ -107,9 +108,9 @@ label start:
 
 label junction:
 
-    scene bg doorway with dissolve
-
-    show kid neutral temp at halfsize, center with move
+    scene bg doorway 
+    show kid neutral temp at halfsize, center 
+    with dissolve
 
     menu:
         "Dog":
@@ -117,6 +118,9 @@ label junction:
 
         "Prototype Microwave Game":
             jump kitchen
+
+        "Gift Selection":
+            jump bedroom
 
         "End Game":
             jump ending
@@ -221,9 +225,39 @@ label kitchen:
 
     jump junction
 
+label bedroom:
+
+    scene bg bedroom with dissolve
+
+    call screen giftselection
+
+    dad "gift number [selectedgift] selected"
+
+    jump junction
+
 screen example():
     add "its-cold-out-imma-wear-my-jamas-question-mark-dog-restored-v0-009m4oh1o0b91.webp": 
         align (0.5, 0.2)
+
+default selectedgift = 0
+screen giftselection():
+    on "show" action SetVariable("selectedgift", 0)
+    grid 2 2:
+        xalign 0.5
+        yalign 0.5
+        spacing 10
+        frame:
+            background "#000a" 
+            textbutton "Gift Item 1" action [SetVariable("selectedgift", 1), Return()]
+        frame:
+            background "#000a" 
+            textbutton "Gift Item 2" action [SetVariable("selectedgift", 2), Return()]
+        frame:
+            background "#000a" 
+            textbutton "Gift Item 3" action [SetVariable("selectedgift", 3), Return()]
+        frame:
+            background "#000a" 
+            textbutton "Gift Item 4" action [SetVariable("selectedgift", 4), Return()]
 
 default foodchoice = 0
 screen foodselection():
@@ -244,7 +278,6 @@ screen foodselection():
         frame:
             background "#000a" 
             textbutton "Food Item 4" action [SetVariable("foodchoice", 4), Return()]
-
 
 default microwave_time = 0.0
 default start_timer = False
