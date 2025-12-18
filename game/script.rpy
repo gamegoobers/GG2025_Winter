@@ -14,6 +14,9 @@ image bg kitchen = im.Scale("bg kitchen.png", 1920, 1080)
 init:
     $ performance = 0
 
+transform halfsize:
+    zoom 0.5
+
 # The game starts here.
 label start:
 
@@ -61,7 +64,7 @@ label start:
 
     "{i}You run to the door and let your son in..."
 
-    show kid temp at center with dissolve
+    show kid neutral temp at halfsize, center with dissolve
 
     dad "Hey Kiddo... {w}another year, {w}another..."
 
@@ -100,7 +103,7 @@ label junction:
 
     show bg doorway with dissolve
 
-    show kid temp at center with move
+    show kid neutral temp at halfsize, center with move
 
     menu:
         "Dog":
@@ -114,7 +117,7 @@ label junction:
 
 label dog:
 
-    show kid temp at left with move
+    show kid neutral temp at halfsize, left with move
 
     kid "ayo is that a f*ckin' DOG?"
 
@@ -133,50 +136,64 @@ label kitchen:
 
     show bg kitchen with dissolve
 
+    call screen foodselection
+
     call screen microwavegame
 
-    show kid at center with move
+    show kid neutral temp at halfsize, center with move
     
     # Dislike Food
-    if foodaffinity == 0:
-
-        $ performance += 0
-
-        kid "Um... {w}maybe I didn't say it before but I don't really like food"
-
-        dad "Really? {w}Why didn't you tell me?"
-    # Tolerate Food
-    elif foodaffinity == 1:
-
-        $ performance += 1
-
-        kid "I wouldn't say food is my favourite..."
-
-        dad "I thought you liked it the last time I made it..."
-    # Likes Food
-    else:
+    if foodchoice == 3:
 
         $ performance += 2
+        
+        show kid hopeful temp
 
         kid "Well... {w}I'm happy that you remembered my favorite food."
 
         dad "Of course I'd remember!"
 
+    # Tolerate Food
+    elif foodchoice == 2 or foodchoice == 4:
+
+        $ performance += 1
+
+        show kid neutral temp
+
+        kid "I wouldn't say food is my favourite..."
+
+        dad "I thought you liked it the last time I made it..."
+
+    # Likes Food
+    else:
+
+        $ performance += 0
+
+        show kid disappointed temp
+
+        kid "Um... {w}maybe I didn't say it before but I don't really like food"
+
+        dad "Really? {w}Why didn't you tell me?"
+
     kid "{alpha=0.5}*munch munch"
 
     dad "So... {w} How was it?"
     # Perfect Performance
-    if abs(15.0 - microwave_time) <= 1.0:
+    if abs(5.0 - microwave_time) <= 1.0:
 
         $ performance += 2
+
+        show kid hopeful temp
 
         kid "It's good... {w}not over or undercooked like the last couple of times"
 
         dad "RESPONSE"
     # Good Performance
-    elif abs(15.0 - microwave_time) <= 3.0:
+    elif abs(5.0 - microwave_time) <= 3.0:
 
         $ performance += 1
+
+        show kid neutral temp
 
         kid "It's palatable, I'll get used to it"
 
@@ -185,6 +202,8 @@ label kitchen:
     else:
 
         $ performance += 0
+
+        show kid disappointed temp
 
         kid "I'm not too hungry right now, can I get it in a container to bring home?"
 
@@ -196,11 +215,31 @@ screen example():
     add "its-cold-out-imma-wear-my-jamas-question-mark-dog-restored-v0-009m4oh1o0b91.webp": 
         align (0.5, 0.2)
 
+default foodchoice = 0
+screen foodselection():
+    on "show" action [SetVariable("foodchoice", 0)]
+    grid 2 2:
+        xalign 0.5
+        yalign 0.5
+        spacing 10
+        frame:
+            background "#000a" 
+            textbutton "Food Item 1" action [SetVariable("foodchoice", 1), Return()]
+        frame:
+            background "#000a" 
+            textbutton "Food Item 2" action [SetVariable("foodchoice", 2), Return()]
+        frame:
+            background "#000a" 
+            textbutton "Food Item 3" action [SetVariable("foodchoice", 3), Return()]
+        frame:
+            background "#000a" 
+            textbutton "Food Item 4" action [SetVariable("foodchoice", 4), Return()]
+
+
 default microwave_time = 0.0
 default start_timer = False
 default game_started = False
 default culinary_expert = False
-default foodaffinity = 0
 screen microwavegame():
     on "show" action [SetVariable("microwave_time", 0.0), SetVariable("start_timer", False), SetVariable("game_started", False), SetVariable("culinary_expert", False)]
     frame:
@@ -225,7 +264,7 @@ screen microwavegame():
 
 label ending:
 
-    show kid at center with move
+    show kid at halfsize, center with move
 
     if culinary_expert:
 
