@@ -1,6 +1,5 @@
 ﻿# The script of the game goes in this file.
 
-
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 define kid = Character("Kid", color="#00b3ff")
@@ -22,7 +21,7 @@ transform halfsize:
 
 transform diningposition:
     xalign 0.5
-    yalign 0.4
+    yalign 0.2
 
 # The game starts here.
 label start:
@@ -30,7 +29,7 @@ label start:
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.
-    scene bg frontdoor
+    scene bg bedroom
 
     # This shows a character sprite. A placeholder is used, but you can
     # replace it by adding a file named "eileen happy.png" to the images
@@ -57,7 +56,7 @@ label start:
 
     "{i}you check your phone screen and read a text from your ex-wife"
 
-    "\"By the way, just dropped off K. {w}First time in a while he's spending his birthday with you, huh?\""
+    "\"By the way, just dropped off K. {w=0.5}First time in a while he's spending his birthday with you, huh?\""
 
     dad "{alpha=0.5}It's his birthday?" with hpunch
 
@@ -65,15 +64,17 @@ label start:
 
     dad "{alpha=0.5}What time is it?"
 
-    "{i}[[12:04 PM, July 16th]"
+    "{i}[[12:04 PM, {w=0.4}July 16th]"
 
-    dad "{alpha=0.5}He's here? {w}But I have nothing prepared!"
+    dad "{alpha=0.5}He's here? {w=0.5}But I have nothing prepared!"
 
     "{i}You run to the door and let your son in..."
 
-    show kid neutral temp at halfsize, center with dissolve
+    scene bg doorway with dissolve
 
-    dad "Hey Kiddo... {w}another year, {w}another..."
+    show kid neutral temp at halfsize, truecenter with dissolve
+
+    dad "Hey Kiddo... {w=0.8}another year, {w=0.5}another..."
 
     window hide dissolve
     menu:
@@ -86,19 +87,19 @@ label start:
             
     if performance == 1:
 
-        kid "Yeah, {w}another year..."
+        kid "Yeah, {w=0.5}another year..."
 
     else:
 
-        kid "Uh... {w}not quite..."
+        kid "Uh... {w=0.5}not quite..."
 
-        dad "oh... {w}sorry Kiddo..."
+        dad "oh... {w=0.5}sorry Kiddo..."
 
-    dad "How does some homemade lunch sound? {w}And of course, {w}I've got your present ready to go too!"
+    dad "How does some homemade lunch sound? {w=0.3}And of course, {w=0.1}I've got your present ready to go too!"
     
-    dad "{alpha=0.5}Wait, I don't... {w}what am I going to do?"
+    dad "{alpha=0.5}Wait, I don't... {w=0.5}what am I going to do?"
 
-    kid "Yeah, sounds cool. {w}I have homework due soon so I asked Mom to pick me up at 3."
+    kid "Yeah, sounds cool. {w=0.5}I have homework due soon so I asked Mom to pick me up at 3."
 
     dad "Alright, no problem. Let's make your favourite meal together."
 
@@ -109,7 +110,7 @@ label start:
 label junction:
 
     scene bg doorway 
-    show kid neutral temp at halfsize, center 
+    show kid neutral temp at halfsize, truecenter 
     with dissolve
 
     menu:
@@ -153,15 +154,17 @@ label kitchen:
     scene bg diningtable
     show table at center 
     with dissolve
+
+    show kid neutral temp behind table at halfsize, diningposition with moveinleft
     
     # Like Food
     if foodchoice == 3:
 
         $ performance += 2
         
-        show kid hopeful temp behind table at halfsize, diningposition with moveinleft
+        show kid hopeful temp behind table at halfsize
 
-        kid "Well... {w}I'm happy that you remembered my favorite food."
+        kid "Well... {w=0.5}I'm happy that you remembered my favorite food."
 
         dad "Of course I'd remember!"
 
@@ -170,7 +173,7 @@ label kitchen:
 
         $ performance += 1
 
-        show kid neutral temp at halfsize, diningposition with moveinleft
+        show kid neutral temp at halfsiz
 
         kid "I wouldn't say food is my favourite..."
 
@@ -181,15 +184,15 @@ label kitchen:
 
         $ performance += 0
 
-        show kid disappointed temp at halfsize, diningposition with moveinleft
+        show kid disappointed temp at halfsize
 
-        kid "Um... {w}maybe I didn't say it before but I don't really like food"
+        kid "Um... {w=0.5}maybe I didn't say it before but I don't really like food."
 
-        dad "Really? {w}Why didn't you tell me?"
+        dad "Really? {w=0.5}Why didn't you tell me?"
 
     kid "{alpha=0.5}*munch munch"
 
-    dad "So... {w}How was it?"
+    dad "So... {w=0.5}How was it?"
     # Perfect Performance
     if abs(5.0 - microwave_time) <= 1.0:
 
@@ -199,9 +202,10 @@ label kitchen:
 
         show kid hopeful temp
 
-        kid "It's good... {w}not over or undercooked like the last couple of times"
+        kid "It's good... {w=0.5}not over or undercooked like the last couple of times."
 
-        dad "RESPONSE"
+        dad "I think I’ve gotten the hang of it, {w=0.5}just took a lot of tries..."
+
     # Good Performance
     elif abs(5.0 - microwave_time) <= 3.0:
 
@@ -209,9 +213,10 @@ label kitchen:
 
         show kid neutral temp
 
-        kid "It's palatable, I'll get used to it"
+        kid "It's palatable, {w=0.3}I'll get used to it."
 
-        dad "RESPONSE"
+        dad "At least it's not worse?"
+
     # Bad Performance
     else:
 
@@ -219,9 +224,9 @@ label kitchen:
 
         show kid disappointed temp
 
-        kid "I'm not too hungry right now, can I get it in a container to bring home?"
+        kid "I'm not too hungry right now, {w=0.3}can I get it in a container to bring home?"
 
-        dad "RESPONSE"
+        dad "Oh {w=0.2}uh... {w=0.8}I don't think I have any. {w=0.5}I'll just leave it here for you the next time you visit."
 
     jump junction
 
@@ -307,17 +312,57 @@ screen microwavegame():
 
 label ending:
 
-    show kid at halfsize, center with move
+    show kid neutral temp at halfsize, truecenter with move
 
-    if culinary_expert:
+    # Good Ending
+    if performance >= 4:
 
-        kid "yo this pizza pocket kinda hit ngl, ya did good Chef"
+        kid "Hey dad... {w=0.5}Can I talk to you about something?"
 
+        dad "Yeah, {w=0.5}what's up?"
+
+        kid "So... {w=0.8}I've been seeing someone... {w=0.8}and they're really important to me..."
+
+        kid "It's been getting kinda serious {w=0.5}and we've been talking about meeting each other's parents."
+
+        kid "but I've been hesitating on it..."
+
+        kid "But also, {w=0.5}it does feel like I can open up to you more now."
+
+        dad "Oh K... {w=1.0}you know I'm always here for you."
+
+        dad "I messed up when you were growing up."
+
+        dad "it took {w=0.3}a lot for me to learn to pivot my priorities away from myself when you were born."
+
+    # Neutral Ending
+    elif performance >= 2:
+        
+        "{i}your phone receives a notification"
+
+        kid "Hey Dad, {w=0.8}Mom said she's here. {w=0.5}I better get going, {w=0.5} I wouldn't want to make her wait."
+
+        dad "Already?"
+
+        "{i}[[3:00PM]"
+
+        dad "I guess so."
+
+        kid "It was nice spending my birthday with you, {w=0.8}it reminded me of when I was little. {w=0.5}Thank for the [[GIFT] too."
+
+    # Bad Ending
     else:
+        pass
 
-        kid "bro how'd you f*ck up the microwave game, the timer ain't even hidden LOL"
+    # if culinary_expert:
 
-    kid "anyway game's over byeeeeeeeee"
+    #     kid "yo this pizza pocket kinda hit ngl, ya did good Chef"
+
+    # else:
+
+    #     kid "bro how'd you f*ck up the microwave game, the timer ain't even hidden LOL"
+
+    # kid "anyway game's over byeeeeeeeee"
 
     # This ends the game.
     return
