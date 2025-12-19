@@ -6,12 +6,11 @@ define kid = Character("Kid", color="#00b3ff")
 define dad = Character("Dad", color="#0037ff")
 
 # Declare Backgrounds
-image bg frontdoor = im.Scale("bg tempfrontdoor.png", 1920, 1080)
-image bg doorway = im.Scale("bg doorway.png", 1920, 1080)
-image bg bedroom = im.Scale("bg bedroom.png", 1920, 1080)
-image bg kitchen = im.Scale("bg kitchen.png", 1920, 1080)
-image bg diningtable = im.Scale("bg diningtable.png", 1920, 1080)
-image table = im.Scale("table.png", 1920, 1080)
+image bg doorway = im.Scale("bg sprites/bg doorway.png", 1920, 1080)
+image bg bedroom = im.Scale("bg sprites/bg bedroom.png", 1920, 1080)
+image bg kitchen = im.Scale("bg sprites/bg kitchen.png", 1920, 1080)
+image bg diningtable = im.Scale("bg sprites/bg diningtable.png", 1920, 1080)
+image table = im.Scale("bg sprites/table.png", 1920, 1080)
 
 init:
     $ performance = 0
@@ -147,9 +146,9 @@ label kitchen:
 
     scene bg kitchen with dissolve
 
-    call screen foodselection
+    call screen foodselection with dissolve
 
-    call screen microwavegame
+    call screen microwavegame with dissolve
 
     scene bg diningtable
     show table at center 
@@ -158,7 +157,7 @@ label kitchen:
     show kid neutral temp behind table at halfsize, diningposition with moveinleft
     
     # Like Food
-    if foodchoice == 3:
+    if foodchoice == "poptart":
 
         $ performance += 2
         
@@ -169,11 +168,11 @@ label kitchen:
         dad "Of course I'd remember!"
 
     # Tolerate Food
-    elif foodchoice == 2 or foodchoice == 4:
+    elif foodchoice == "cup" or foodchoice == "lasagna" or foodchoice == "mac":
 
         $ performance += 1
 
-        show kid neutral temp at halfsiz
+        show kid neutral temp at halfsize
 
         kid "I wouldn't say food is my favourite..."
 
@@ -264,51 +263,86 @@ screen giftselection():
             background "#000a" 
             textbutton "Gift Item 4" action [SetVariable("selectedgift", 4), Return()]
 
-default foodchoice = 0
+default foodchoice = "cup"
 screen foodselection():
-    on "show" action [SetVariable("foodchoice", 0)]
-    grid 2 2:
-        xalign 0.5
-        yalign 0.5
-        spacing 10
-        frame:
-            background "#000a" 
-            textbutton "Food Item 1" action [SetVariable("foodchoice", 1), Return()]
-        frame:
-            background "#000a" 
-            textbutton "Food Item 2" action [SetVariable("foodchoice", 2), Return()]
-        frame:
-            background "#000a" 
-            textbutton "Food Item 3" action [SetVariable("foodchoice", 3), Return()]
-        frame:
-            background "#000a" 
-            textbutton "Food Item 4" action [SetVariable("foodchoice", 4), Return()]
+    on "show" action [SetVariable("foodchoice", "cup")]
+    imagebutton:
+        focus_mask True
+        idle "food sprites/cup before.png" 
+        align (0.2, 0.1)
+        at Transform(zoom = 0.3)
+        action [SetVariable("foodchoice", "cup"), Return()]
+    imagebutton:
+        focus_mask True
+        idle "food sprites/lasagna before.png" 
+        align (0.5, 0.1)
+        at Transform(zoom = 0.3)
+        action [SetVariable("foodchoice", "lasagna"), Return()]
+    imagebutton:
+        focus_mask True
+        idle "food sprites/mac before.png"
+        align (0.8, 0.1)
+        at Transform(zoom = 0.3)
+        action [SetVariable("foodchoice", "mac"), Return()]
+    imagebutton:
+        focus_mask True
+        idle "food sprites/meat before.png"
+        align (0.2, 0.8)
+        at Transform(zoom = 0.3)
+        action [SetVariable("foodchoice", "meat"), Return()]
+    imagebutton:
+        focus_mask True
+        idle "food sprites/poptart before.png"
+        align (0.5, 0.8)
+        at Transform(zoom = 0.3)
+        action [SetVariable("foodchoice", "poptart"), Return()]
+    imagebutton:
+        focus_mask True
+        idle "food sprites/spicy before.png"
+        align (0.8, 0.8)
+        at Transform(zoom = 0.3)
+        action [SetVariable("foodchoice", "spicy"), Return()]
 
 default microwave_time = 0.0
 default start_timer = False
 default game_started = False
+default game_ended = False
 default culinary_expert = False
 screen microwavegame():
-    on "show" action [SetVariable("microwave_time", 0.0), SetVariable("start_timer", False), SetVariable("game_started", False), SetVariable("culinary_expert", False)]
+    modal True
+    on "show" action [SetVariable("microwave_time", 0.0), SetVariable("start_timer", False), SetVariable("game_started", False), SetVariable("culinary_expert", False), SetVariable("game_started", False)]
+    add "michaelwave sprites/microwave main.png" align (0.5, 0.5)
+
+    imagebutton:
+        focus_mask True
+        idle "michaelwave sprites/microwave button.png" 
+        align (0.5, 0.5)
+        action [ToggleVariable("start_timer"), SetVariable ("game_started", True), If(game_started is True, SetVariable("game_ended", True), None)]
     frame:
         background "#000a" 
         text "Stop the Timer as close to 5.0 Seconds as possible" 
-        xalign 0.5 yalign 0.1
+        xalign 0.5 yalign 0.05
     frame:
         background "#000a" 
-        hbox:
-            textbutton "Start/ Stop" action [ToggleVariable("start_timer"), SetVariable ("game_started", True), If(game_started is True, Return(), None)]
-            textbutton "Reset" action SetVariable("microwave_time", 0.0)
-            spacing 20
-        xalign 0.5 
-        yalign 0.3
-    frame:
-        background "#000a" 
-        text "Time elapsed: [microwave_time:.1f]"
-        xalign 0.5 yalign 0.2
+        text "[microwave_time:.1f]"
+        xalign 0.75 yalign 0.3
+
+    # Draw Food
+    if not game_ended:
+        add "food sprites/[foodchoice] before.png" align (0.375, 0.65) zoom 0.3
+        # Microwave Door
+        if not start_timer:
+            add "michaelwave sprites/microwave opendoor.png" align (0.5, 0.5)
+        else:
+            add "michaelwave sprites/microwave closed lightson.png" align (0.5, 0.5)
+    else:
+        add "food sprites/[foodchoice] after.png" align (0.375, 0.65) zoom 0.3
+        add "michaelwave sprites/microwave opendoor.png" align (0.5, 0.5)
+        timer 2.0 action Return()
 
     if start_timer:
-        timer 0.1 action [SetVariable("microwave_time", microwave_time + 0.1)] repeat start_timer
+        timer 0.1 action [SetVariable("microwave_time", microwave_time + 0.1), SetVariable("game_started", True)] repeat start_timer
+
 
 label ending:
 
