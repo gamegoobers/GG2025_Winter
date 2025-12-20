@@ -175,7 +175,7 @@ label kitchen:
         show kid neutral temp at halfsize
 
         kid "I wouldn't say food is my favourite..."
-
+        
         dad "I thought you liked it the last time I made it..."
 
     # Dislike Food
