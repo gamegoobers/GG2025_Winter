@@ -59,11 +59,11 @@ label start:
 
     dad "{alpha=0.5}It's his birthday?" with hpunch
 
-    # play sound "door knocking sound effect"
-
     dad "{alpha=0.5}What time is it?"
 
     "{i}[[12:04 PM, {w=0.4}July 16th]"
+
+    play sound "audio/Door Knock.wav"
 
     dad "{alpha=0.5}He's here? {w=0.5}But I have nothing prepared!"
 
@@ -147,6 +147,8 @@ label kitchen:
     scene bg kitchen
     call screen foodselection with dissolve
 
+    # play sound "audio/MicrowaveBeep.ogg"
+    
     call screen microwavegame with moveinleft
 
     scene bg diningtable
@@ -365,6 +367,10 @@ screen foodselection():
             at Transform(zoom = 0.3)
             action [SetVariable("foodchoice", "poptart"), Return()]
     
+init python:
+    renpy.music.register_channel("music2", "music", True)
+    renpy.music.register_channel("sound2", "sfx", False)
+    
 default microwave_time = 0.0
 default start_timer = False
 default game_started = False
@@ -377,9 +383,13 @@ screen microwavegame():
 
     imagebutton:
         focus_mask True
-        idle "michaelwave sprites/microwave button.png" 
+        idle "michaelwave sprites/microwave button idle.png" 
+        hover "michaelwave sprites/microwave button hover.png"
+        activate_sound "audio/MicrowaveBeep.ogg"
         align (0.5, 0.5)
-        action [ToggleVariable("start_timer"), SetVariable ("game_started", True), If(game_started is True, SetVariable("game_ended", True), None)]
+        action [ToggleVariable("start_timer"), SetVariable ("game_started", True), If(game_started is True, \
+        [Play("sound", "audio/MicrowaveOpen.ogg"), Play("sound2", "audio/MicrowaveStopNoBeep.ogg"), SetVariable("game_ended", True)], \
+        [Play("sound", "audio/MicrowaveClose.ogg"), Play("sound2", "audio/MicrowaveBrrrLoop.ogg")])]
     frame:
         background "#000a" 
         text "Stop the Timer as close to 5.0 Seconds as possible" 
