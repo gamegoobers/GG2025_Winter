@@ -8,6 +8,7 @@ define dad = Character("Dad", color="#0037ff")
 # Declare Backgrounds
 image bg doorway = im.Scale("bg sprites/bg doorway.png", 1920, 1080)
 image bg bedroom = im.Scale("bg sprites/bg bedroom.png", 1920, 1080)
+# image bg fridge = im.Scale("foodselection sprites/bg kitchen minigame.png", 1920, 1080)
 image bg kitchen = im.Scale("bg sprites/bg kitchen.png", 1920, 1080)
 image bg diningtable = im.Scale("bg sprites/bg diningtable.png", 1920, 1080)
 image table = im.Scale("bg sprites/table.png", 1920, 1080)
@@ -144,9 +145,9 @@ label dog:
 
 label kitchen:    
 
-    scene bg kitchen with dissolve
-
     call screen foodselection with dissolve
+
+    scene bg kitchen with dissolve
 
     call screen microwavegame with dissolve
 
@@ -175,7 +176,7 @@ label kitchen:
         show kid neutral temp at halfsize
 
         kid "I wouldn't say food is my favourite..."
-        
+
         dad "I thought you liked it the last time I made it..."
 
     # Dislike Food
@@ -192,6 +193,7 @@ label kitchen:
     kid "{alpha=0.5}*munch munch"
 
     dad "So... {w=0.5}How was it?"
+
     # Perfect Performance
     if abs(5.0 - microwave_time) <= 1.0:
 
@@ -264,45 +266,72 @@ screen giftselection():
             textbutton "Gift Item 4" action [SetVariable("selectedgift", 4), Return()]
 
 default foodchoice = "cup"
+default fridgeopen = False
 screen foodselection():
     on "show" action [SetVariable("foodchoice", "cup")]
+    add im.Scale("foodselection sprites/bg kitchen minigame.png", 1920, 1080)
+
+    # Cup Noodle Foods
     imagebutton:
         focus_mask True
-        idle "food sprites/cup before.png" 
-        align (0.2, 0.1)
+        idle "food sprites/cup before.png"
+        hover "food sprites/cup hover.png"
+        align (0.0, 0.62)
+        xoffset ()
         at Transform(zoom = 0.3)
         action [SetVariable("foodchoice", "cup"), Return()]
     imagebutton:
         focus_mask True
-        idle "food sprites/lasagna before.png" 
-        align (0.5, 0.1)
-        at Transform(zoom = 0.3)
-        action [SetVariable("foodchoice", "lasagna"), Return()]
-    imagebutton:
-        focus_mask True
-        idle "food sprites/mac before.png"
-        align (0.8, 0.1)
-        at Transform(zoom = 0.3)
-        action [SetVariable("foodchoice", "mac"), Return()]
-    imagebutton:
-        focus_mask True
-        idle "food sprites/meat before.png"
-        align (0.2, 0.8)
-        at Transform(zoom = 0.3)
-        action [SetVariable("foodchoice", "meat"), Return()]
-    imagebutton:
-        focus_mask True
-        idle "food sprites/poptart before.png"
-        align (0.5, 0.8)
-        at Transform(zoom = 0.3)
-        action [SetVariable("foodchoice", "poptart"), Return()]
-    imagebutton:
-        focus_mask True
         idle "food sprites/spicy before.png"
-        align (0.8, 0.8)
+        hover "food sprites/spicy hover.png"
+        align (0.2, 0.62)
         at Transform(zoom = 0.3)
         action [SetVariable("foodchoice", "spicy"), Return()]
-
+    # Fridge Door Sprites
+    if not fridgeopen:
+        imagebutton:
+            focus_mask True
+            idle im.Scale("foodselection sprites/fridgedoor closed idle.png", 1920, 1080)
+            hover im.Scale("foodselection sprites/fridgedoor closed hover.png", 1920, 1080)
+            align (0.5, 0.5)
+            action [SetVariable("fridgeopen", True)]
+    else:
+        imagebutton:
+            focus_mask True
+            idle im.Scale("foodselection sprites/fridgedoor opened idle.png", 1920, 1080)
+            hover im.Scale("foodselection sprites/fridgedoor opened hover.png", 1920, 1080)
+            align (0.5, 0.5)
+            action [SetVariable("fridgeopen", False)]
+        # Refrigerated Food Sprites
+        imagebutton:
+            focus_mask True
+            idle "food sprites/lasagna before.png"
+            hover "food sprites/lasagna hover.png"
+            align (0.68, 0.35)
+            at Transform(zoom = 0.3)
+            action [SetVariable("foodchoice", "lasagna"), Return()]
+        imagebutton:
+            focus_mask True
+            idle "food sprites/mac before.png"
+            hover "food sprites/mac hover.png"
+            align (0.95, 0.35)
+            at Transform(zoom = 0.3)
+            action [SetVariable("foodchoice", "mac"), Return()]
+        imagebutton:
+            focus_mask True
+            idle "food sprites/meat before.png"
+            hover "food sprites/meat hover.png"
+            align (0.65, 1.2)
+            at Transform(zoom = 0.3)
+            action [SetVariable("foodchoice", "meat"), Return()]
+        imagebutton:
+            focus_mask True
+            idle "food sprites/poptart before.png"
+            hover "food sprites/poptart hover.png"
+            align (0.95, 1.0)
+            at Transform(zoom = 0.3)
+            action [SetVariable("foodchoice", "poptart"), Return()]
+    
 default microwave_time = 0.0
 default start_timer = False
 default game_started = False
