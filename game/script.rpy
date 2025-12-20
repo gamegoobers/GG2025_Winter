@@ -1,4 +1,4 @@
-# The script of the game goes in this file.
+﻿# The script of the game goes in this file.
 
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
@@ -6,6 +6,7 @@ define kid = Character("Kid", color="#00b3ff")
 define dad = Character("Dad", color="#0037ff")
 
 # Declare Backgrounds
+image bg titlescreen = im.Scale("bg sprites/bg titlescreen.png", 1920, 1080)
 image bg doorway = im.Scale("bg sprites/bg doorway open.png", 1920, 1080)
 image bg doorway closed = im.Scale("bg sprites/bg doorway closed.png", 1920, 1080)
 image bg bedroom = im.Scale("bg sprites/bg bedroom.png", 1920, 1080)
@@ -25,21 +26,25 @@ transform diningposition:
 transform zoomed_and_centered:
     zoom 0.3
     align (0.5, 0.5)
+transform foodposition:
+    zoom 0.3
+    align (0.5, 0.5)
 
 # The game starts here.
 label start:
 
     scene bg bedroom with fade
-
-    # These display lines of dialogue.
-    "{i}You are suddenly woken up by a text on your phone"
-    "{i}you check your phone screen and read a text from your ex-wife"
-    show phone at right, halfsize with moveinright 
+    play sound "audio/PhoneNotifBuzz.ogg"
+    pause(3)
+    play sound "audio/PhoneNotifBuzz.ogg"
+    pause(3)
+    show phone at right, halfsize with easeinright 
     "\"By the way, just dropped off K. {w=0.5}First time in a while he's spending his birthday with you, huh?\""
     dad "{alpha=0.5}It's their birthday?" with hpunch
     dad "{alpha=0.5}What time is it?"
     "{i}[[12:04 PM, {w=0.4}July 16th]"
     play sound "audio/DoorKnock.ogg"
+    hide phone with easeoutright 
     dad "{alpha=0.5}He's here? {w=0.5}But I have nothing prepared!"
     "{i}You run to the door and let your son in..."
     scene bg doorway with dissolve
@@ -102,6 +107,7 @@ label kitchen:
 
     scene bg diningtable
     show table at center 
+    show expression "%s after" % selectedfood at truecenter, foodposition
     with dissolve
 
     show kid neutral temp behind table at halfsize, diningposition with moveinleft
@@ -307,7 +313,7 @@ label ending:
     show kid neutral temp at halfsize, truecenter with move
 
     # Good Ending
-    if performance >= 4:
+    if performance >= 6:
         kid "Hey dad... {w=0.5}Can I talk to you about something?"
         dad "Yeah, {w=0.5}what's up?"
         kid "So... {w=0.8}I've been seeing someone... {w=0.8}and they're really important to me..."
@@ -331,14 +337,15 @@ label ending:
         kid "{cps=*0.65}I love you too, {w=0.3}Dad."
 
     # Neutral Ending
-    elif performance >= 2:
-        "{i}your phone receives a notification"
+    elif performance >= 3:
+        play sound "audio/PhoneNotifBuzz.ogg"
+        pause(3.0)
         kid "Hey Dad, {w=0.8}Mom said she's here. {w=0.5}I better get going, {w=0.5} I wouldn't want to make her wait."
         dad "Already?"
-        show phone at right, halfsize with moveinright 
+        show phone at right, halfsize with easeinright 
         "{i}[[3:00PM]"
         dad "I guess so."
-        hide phone with dissolve
+        hide phone with easeoutright
         dad "How about a hug?"
         kid "I really have to go, {w=0.3}maybe next time."
         show bg doorway with dissolve
@@ -368,7 +375,7 @@ label ending:
         kid "I'll rip off the bandaid here and say that we don't have to force ourselves to see each other regularly."
         kid "Goodbye"
         hide kid with dissolve
-        pause 3.0
+        pause 4.0
         dad "{alpha=0.5}How did it go so wrong? {w=0.3}Is there any coming back from this?"
         dad "I wonder what I could have done differently..."
 

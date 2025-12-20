@@ -368,13 +368,14 @@ screen main_menu():
     if gui.show_name:
 
         vbox:
+            align (0.7, 0.3)
             style "main_menu_vbox"
 
             text "[config.name!t]":
                 style "main_menu_title"
 
-            text "[config.version]":
-                style "main_menu_version"
+            # text "[config.version]":
+            #     style "main_menu_version"
 
 
 style main_menu_frame is empty
