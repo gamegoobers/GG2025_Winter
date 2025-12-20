@@ -147,8 +147,6 @@ label kitchen:
     scene bg kitchen
     call screen foodselection with dissolve
 
-    # play sound "audio/MicrowaveBeep.ogg"
-    
     call screen microwavegame with moveinleft
 
     scene bg diningtable
@@ -231,10 +229,62 @@ label kitchen:
 
     jump junction
 
+transform zoomed_and_centered:
+    zoom 0.3
+    align (0.5, 0.5)
 label bedroom:
 
     scene bg bedroom
     call screen giftselection with dissolve
+
+    if selectedgift == "book":
+
+        show book after at zoomed_and_centered with dissolve
+
+        dad "A casebook, {w=0.3}must have taken this one from work, but they won't notice it being missing."
+
+    elif selectedgift == "cologne":
+
+        show cologne after at zoomed_and_centered with dissolve
+
+        dad "Mmm, {w=0.5}top notes of whiskey and charcoal..."
+        
+    elif selectedgift == "money":
+
+        show money after at zoomed_and_centered with dissolve
+
+        dad "A $20 bill. {w=0.5}Hey, {w=0.3}money is money."
+
+    elif selectedgift == "notebook":
+
+        show notebook after at zoomed_and_centered with dissolve
+
+        dad "Just gotta rip out the pages I already wrote in and it's ready for K to use."
+
+    elif selectedgift == "shirt":
+
+        show shirt after at zoomed_and_centered with dissolve
+
+        dad "A limited edition tour-only t-shirt of the hit musician, Rocker Bander!"
+
+    elif selectedgift == "socks":
+
+        show socks after at zoomed_and_centered with dissolve
+
+        dad "No holes and fresh from the laundry."
+    
+    elif selectedgift == "watch":
+
+        show watch after at zoomed_and_centered with dissolve
+
+        dad "Got this when I passed 15 years at the firm... {w=0.5}still not a partner though."
+
+    menu:
+        "Select Gift":
+            pass
+
+        "Choose Another":
+            jump bedroom
 
     scene bg doorway with dissolve
 
@@ -245,6 +295,9 @@ label bedroom:
 screen example():
     add "its-cold-out-imma-wear-my-jamas-question-mark-dog-restored-v0-009m4oh1o0b91.webp": 
         align (0.5, 0.2)
+
+transform move_to_center:
+    linear 1.0 xalign 0.5 yalign 0.5
 
 default selectedgift = "book"
 screen giftselection():
@@ -258,6 +311,7 @@ screen giftselection():
         align (0.65, 0.73)
         at Transform(zoom = 0.5)
         action [SetVariable("selectedgift", "book"), Return()]
+    
     imagebutton:
         focus_mask True
         idle "gift sprites/cologne before.png"
@@ -300,7 +354,6 @@ screen giftselection():
         align (0.08, 0.35)
         at Transform(zoom = 0.5)
         action [SetVariable("selectedgift", "watch"), Return()]
-
 
 default foodchoice = "cup"
 default fridgeopen = False
@@ -370,7 +423,7 @@ screen foodselection():
 init python:
     renpy.music.register_channel("music2", "music", True)
     renpy.music.register_channel("sound2", "sfx", False)
-    
+
 default microwave_time = 0.0
 default start_timer = False
 default game_started = False
@@ -386,10 +439,11 @@ screen microwavegame():
         idle "michaelwave sprites/microwave button idle.png" 
         hover "michaelwave sprites/microwave button hover.png"
         activate_sound "audio/MicrowaveBeep.ogg"
+        sensitive not game_ended
         align (0.5, 0.5)
         action [ToggleVariable("start_timer"), SetVariable ("game_started", True), If(game_started is True, \
         [Play("sound", "audio/MicrowaveOpen.ogg"), Play("sound2", "audio/MicrowaveStopNoBeep.ogg"), SetVariable("game_ended", True)], \
-        [Play("sound", "audio/MicrowaveClose.ogg"), Play("sound2", "audio/MicrowaveBrrrLoop.ogg")])]
+        [Play("sound", "audio/MicrowaveClose.ogg"), Play("sound2", "audio/MicrowaveStartAndLoop.ogg")])]
     frame:
         background "#000a" 
         text "Stop the Timer as close to 5.0 Seconds as possible" 
