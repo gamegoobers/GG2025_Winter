@@ -32,7 +32,7 @@ transform foodposition:
 
 # The game starts here.
 label start:
-
+    stop music fadeout 0.5 # Stops the Main Menu Theme
     scene bg bedroom with fade
     play sound "audio/PhoneNotifBuzz.ogg"
     pause(3)

@@ -26,6 +26,7 @@ screen foodselection():
             idle im.Scale("foodselection sprites/fridgedoor closed idle.png", 1920, 1080)
             hover im.Scale("foodselection sprites/fridgedoor closed hover.png", 1920, 1080)
             align (0.5, 0.5)
+            activate_sound "audio/FridgeOpen.ogg"
             action [SetVariable("fridgeopen", True)]
     else:
         imagebutton:
@@ -33,6 +34,7 @@ screen foodselection():
             idle im.Scale("foodselection sprites/fridgedoor opened idle.png", 1920, 1080)
             hover im.Scale("foodselection sprites/fridgedoor opened hover.png", 1920, 1080)
             align (0.5, 0.5)
+            activate_sound "audio/FridgeClose.ogg"
             action [SetVariable("fridgeopen", False)]
         # Refrigerated Food Sprites
         imagebutton:
