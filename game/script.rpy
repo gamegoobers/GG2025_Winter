@@ -48,6 +48,8 @@ label start:
     dad "{alpha=0.5}He's here? {w=0.5}But I have nothing prepared!"
     "{i}You run to the door and let your son in..."
     scene bg doorway with dissolve
+    pause 1.0
+    play music "music/dialogue-draft1.ogg"
     show kid neutral temp at halfsize, truecenter with dissolve
     dad "Hey Kiddo... {w=0.8}another year, {w=0.5}another..."
 
@@ -71,9 +73,12 @@ label start:
     dad "Alright, no problem. Let's make your favourite meal together."
     dad "{alpha=0.5}What did he like to eat again?"
     kid "Okay"
+    stop music fadeout 0.5
+    pause (0.5)
+
+    play music "music/COOKINGTIME.ogg"
 
 label kitchen:    
-
     scene bg kitchen
     call screen foodselection with dissolve
 
@@ -105,13 +110,15 @@ label kitchen:
 
     scene bg kitchen with dissolve
     call screen microwavegame with moveinleft
-
+    
+    stop music fadeout 0.5
     scene bg diningtable
     show table at center 
     show expression "%s after" % selectedfood at truecenter, foodposition
     with dissolve
 
     show kid neutral temp behind table at halfsize, diningposition with moveinleft
+    play music "music/dialogue-draft1.ogg"
     
     # Like Food
     if selectedfood == "poptart":
