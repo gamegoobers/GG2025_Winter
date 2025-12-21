@@ -96,6 +96,7 @@ label kitchen:
         show poptart before at zoomed_and_centered with dissolve
         dad "K's got a sweet tooth but... {w=0.3}this isn't really a meal {w=0.2}is it?"
 
+    dad "Should be ready after [microwave_time_target:.0f] seconds in the Microwave."
     menu:
         "Select Food":
             pass
@@ -135,13 +136,13 @@ label kitchen:
     dad "So... {w=0.5}How is it?"
 
     # Perfect Performance
-    if abs(5.0 - microwave_time) <= 1.0:
+    if abs(microwave_time_target - microwave_time) <= 0.75:
         $ performance += 2
         show kid hopeful temp behind table at halfsize
         kid "Wow... {w=0.5}it's good this time."
         dad "I think I've gotten the hang of it, {w=0.5}just took a lot of tries..."
     # Good Performance
-    elif abs(5.0 - microwave_time) <= 3.0:
+    elif abs(microwave_time_target - microwave_time) <= 1.5:
         $ performance += 1
         show kid neutral temp behind table at halfsize
         kid "It's palatable, {w=0.3}I'll get used to it."

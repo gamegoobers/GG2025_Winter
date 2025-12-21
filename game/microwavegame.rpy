@@ -22,8 +22,8 @@ screen microwavegame():
         [Play("sound", "audio/MicrowaveOpen.ogg"), Play("sound2", "audio/MicrowaveStopNoBeep.ogg"), SetVariable("game_ended", True)], \
         [Play("sound", "audio/MicrowaveClose.ogg"), Play("sound2", "audio/MicrowaveStartAndLoop.ogg")])]
     frame:
-        background "#000a" 
-        text "Stop the Timer as close to 5.0 Seconds as possible" 
+        background "#000a"
+        text "Stop the Timer as close to [microwave_time_target] Seconds as possible" 
         xalign 0.5 yalign 0.05
     frame:
         background "#000a" 
