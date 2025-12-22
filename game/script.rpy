@@ -30,6 +30,8 @@ transform foodposition:
     zoom 0.3
     align (0.5, 0.5)
 
+default menu_width = 400
+
 # The game starts here.
 label start:
     stop music fadeout 0.5 # Stops the Main Menu Theme
@@ -54,6 +56,7 @@ label start:
     dad "Hey Kiddo... {w=0.8}another year, {w=0.5}another..."
 
     window hide dissolve
+    $ menu_width = 300
     menu:
         "June 16th":
             $ performance += 0
@@ -102,6 +105,8 @@ label kitchen:
         dad "K's got a sweet tooth but... {w=0.3}this isn't really a meal {w=0.2}is it?"
 
     dad "Should be ready after [microwave_time_target:.0f] seconds in the Microwave."
+    
+    $ menu_width = 350
     menu:
         "Select Food":
             pass
@@ -163,6 +168,7 @@ label kitchen:
 
 label conversation_start:
     dad ".{cps=2}....."
+    $ menu_width = 500
     menu:
         "So, how's school going?":
             jump conversation_school
@@ -171,6 +177,7 @@ label conversation_start:
 
 label conversation_school:
     kid "It's fine I guess"
+    $ menu_width = 500
     menu:
         "How are your grades?":
             jump conversation_grades
@@ -179,6 +186,7 @@ label conversation_school:
 
 label conversation_grades:
     kid "I don't know yet, {w=0.3}they're not out..."
+    $ menu_width = 500
     menu:
         "Well, how do you think you're doing?":
             $ performance += 1
@@ -200,6 +208,7 @@ label conversation_grades:
 
 label conversation_direction:
     kid "I don't know... {w=0.3}I haven't decided."
+    $ menu_width = 500
     menu:
         "Have you considered going into law like me?":
             $ performance += 0
@@ -225,6 +234,7 @@ label conversation_recent:
     kid "Nothing much..."
     kid "Actually, {w=0.5}I did compete recently."
     dad "Oh cool, {w=0.4}was it in..."
+    $ menu_width = 500
     menu:
         "Basketball?":
             $ performance += 0
@@ -292,6 +302,7 @@ label giftpicking:
         show watch after at zoomed_and_centered with dissolve
         dad "Got this when I passed 15 years at the firm... {w=0.5}still not a partner though."
 
+    $ menu_width = 500
     menu:
         "Select Gift":
             pass

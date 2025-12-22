@@ -204,13 +204,26 @@ style input:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#choice
 
+define choice_base_width = 340
+
+init python:
+    def choice_button_zoom(menu_width):
+        return float(menu_width) / choice_base_width
+
+transform choice_scale(menu_width):
+    zoom float(menu_width) / choice_base_width
+
 screen choice(items):
     style_prefix "choice"
 
     vbox:
+        
         for i in items:
-            textbutton i.caption action i.action
-
+            textbutton i.caption:
+                action i.action
+                xsize menu_width
+                left_padding 30
+                right_padding 30                
 
 style choice_vbox is hbox
 style choice_button is button
