@@ -402,6 +402,7 @@ style main_menu_text:
 
 style main_menu_title:
     properties gui.text_properties("title")
+    color "#000000"
 
 style main_menu_version:
     properties gui.text_properties("version")
