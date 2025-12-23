@@ -1207,6 +1207,7 @@ style confirm_frame:
     yalign .5
 
 style confirm_prompt_text:
+    color "#2b2b2b"
     textalign 0.5
     layout "subtitle"
 
@@ -1215,6 +1216,8 @@ style confirm_button:
 
 style confirm_button_text:
     properties gui.text_properties("confirm_button")
+    idle_color "#2b2b2b"
+    hover_color "#dfba51"
 
 
 ## Skip indicator screen #######################################################
