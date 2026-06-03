@@ -41,19 +41,19 @@ label start:
     play sound "audio/PhoneNotifBuzz.ogg"
     pause(3)
     show phone at right, halfsize with easeinright 
-    "\"By the way, just dropped off K. {w=0.5}First time in a while he's spending his birthday with you, huh?\""
+    "\"By the way, just dropped them off. {w=0.5}First time in a while they're spending their birthday with you, huh?\""
     dad "{alpha=0.5}It's their birthday?" with hpunch
     dad "{alpha=0.5}What time is it?"
     "{i}[[12:04 PM, {w=0.4}July 16th]"
     play sound "audio/DoorKnock.ogg"
     hide phone with easeoutright 
-    dad "{alpha=0.5}He's here? {w=0.5}But I have nothing prepared!"
-    "{i}You run to the door and let your son in..."
+    dad "{alpha=0.5}They're here? {w=0.5}But I have nothing prepared!"
+    "{i}You rush to the door to let your kid in..."
     scene bg doorway with dissolve
     pause 1.0
     play music "music/dialogue-draft1.ogg"
     show kid neutral temp at halfsize, truecenter with dissolve
-    dad "Hey Kiddo... {w=0.8}another year, {w=0.5}another..."
+    dad "Hey... {w=0.8}another year, {w=0.5}another..."
 
     window hide dissolve
     $ menu_width = 300
@@ -61,21 +61,21 @@ label start:
         "June 16th":
             $ performance += 0
             kid "Uh... {w=0.5}not quite..."
-            dad "oh... {w=0.5}sorry Kiddo..."
+            dad "Oh... {w=0.5}sorry..."
         "July 16th":
             $ performance += 1
             kid "Yeah, {w=0.5}another year..."
         "July 15th":
             $ performance += 0
             kid "Uh... {w=0.5}not quite..."
-            dad "oh... {w=0.5}sorry Kiddo..."
+            dad "Oh... {w=0.5}sorry..."
 
     dad "How does some homemade lunch sound? {w=0.3}And of course, {w=0.1}I've got your present ready to go too!" 
     dad "{alpha=0.5}Wait, I don't... {w=0.5}what am I going to do?"
     kid "Yeah, sounds cool. {w=0.5}I have homework due soon so I asked Mom to pick me up at 3."
     dad "Alright, no problem. Let's make your favourite meal together."
-    dad "{alpha=0.5}What did he like to eat again?"
-    kid "Okay"
+    dad "{alpha=0.5}What did they like to eat again?"
+    kid "Okay."
     stop music fadeout 0.5
     pause (0.5)
 
@@ -90,10 +90,10 @@ label kitchen:
         dad "A little salty {w=0.15}but who doesn't like cup noodles?"
     elif selectedfood == "spicy":
         show spicy before at zoomed_and_centered with dissolve
-        dad "K should be able to handle spice."
+        dad "They should be able to handle spice."
     elif selectedfood == "mac":
         show mac before at zoomed_and_centered with dissolve
-        dad "I remember making this for K all the time!"
+        dad "I remember making this for them all the time!"
     elif selectedfood == "meat":
         show meat before at zoomed_and_centered with dissolve
         dad "My mom brought this over when she came by."
@@ -273,7 +273,7 @@ label conversation_end:
     dad "{alpha=0.5}I've run out of things to talk about, {w=0.3}maybe it's time to give them their gift."
     dad "{alpha=0.5}But I don't have anything! {w=0.3}I'll have to see what I can pass off as one."
     dad "Before you go, {w=0.3}I'll give you your birthday gift! {w=0.3}Just give me a second to grab it!"
-    kid "Oh, {w=0.4}okay"
+    kid "Oh, {w=0.4}okay."
 
 label giftpicking:
 
@@ -291,7 +291,7 @@ label giftpicking:
         dad "A $20 bill. {w=0.5}Hey, {w=0.3}money is money."
     elif selectedgift == "notebook":
         show notebook after at zoomed_and_centered with dissolve
-        dad "Just gotta rip out the pages I already wrote in and it's ready for K to use."
+        dad "Just gotta rip out the pages I already wrote in and it's ready for them to use."
     elif selectedgift == "shirt":
         show shirt after at zoomed_and_centered with dissolve
         dad "A limited edition tour-only t-shirt of the hit musician, Rocker Bander!"
@@ -332,27 +332,27 @@ label ending:
     show kid neutral temp at halfsize, truecenter with move
 
     # Good Ending
-    if performance >= 6:
+    if performance >= 6: #try out with 8
         kid "Hey dad... {w=0.5}Can I talk to you about something?"
         dad "Yeah, {w=0.5}what's up?"
         kid "So... {w=0.8}I've been seeing someone... {w=0.8}and they're really important to me..."
         kid "It's been getting kinda serious {w=0.5}and we've been talking about meeting each other's parents."
         kid "but I've been hesitating on it..."
         kid "But also, {w=0.5}it does feel like I can open up to you more now."
-        dad "Oh K... {w=1.0}you know I'm always here for you."
+        dad "Oh kiddo... {w=1.0}you know I'm always here for you."
         dad "I messed up when you were growing up."
-        dad "I was focusing too much on work to notice my family crumbling."
-        dad "Leaving all the housework to your mom... {w=0.3}dismissing your hobbies..."
+        dad "I was too focused on work to not notice my family crumbling."
+        dad "Leaving the housework to your mom... {w=0.3}dismissing your hobbies..."
         dad "I'm sorry... {w=0.3}I haven't been present when I should have. {w=0.3}It took a long time to realize that."
         kid "I'm sorry too, {w=0.3}I could have been less guarded around you."
-        kid "It was nice spending my birthday with you, {w=0.8}it reminded me of when I was little. {w=0.5}Thank for the gift too."
+        kid "It was nice spending my birthday with you, {w=0.8}it reminded me of when I was little. {w=0.5}Thanks for the gift too."
         kid "Oh {w=0.2}and I'll text you later about when and where we can have dinner with my partner."
         dad "Sounds great. {w=0.4}How about a hug for the road?"
         kid "Sure."
         scene bg hug with fade
         show hug at halfsize, truecenter with dissolve
         pause 2.0
-        dad "{cps=*0.65}I love you, K."
+        dad "{cps=*0.65}I love you."
         kid "{cps=*0.65}I love you too, {w=0.3}Dad."
 
     # Neutral Ending
@@ -378,10 +378,10 @@ label ending:
     else:
         pause 3.0
         kid "You know what... {w=0.3}I think I'm going to go now."
-        dad "So soon? {w=0.3}You just got here"
+        dad "So soon? {w=0.3}But, you just got here."
         kid "Yeah... {w=0.3}I don't know what I expected coming here."
         kid "I thought maybe for my birthday you would have made more of an effort."
-        dad "That's not true K. {w=0.3}I always put in effort for you."
+        dad "That's not true. {w=0.3}I always put in effort for you."
         kid "And this was the best you could do? {w=0.3}It doesn't even feel like you remembered it's my birthday today."
         kid "It's clear you don't really care."
         dad "No, {w=0.15}I do! {w=0.3}I'll try better next time!"
@@ -392,7 +392,7 @@ label ending:
         dad "{alpha=0.5}No... {w=0.3}this isn't how it's supposed to go..."
         dad "Hey, {w=0.3}I-{nw}"
         kid "I'll rip off the bandaid here and say that we don't have to force ourselves to see each other regularly."
-        kid "Goodbye"
+        kid "Goodbye."
         hide kid with dissolve
         pause 4.0
         dad "{alpha=0.5}How did it go so wrong? {w=0.3}Is there any coming back from this?"
