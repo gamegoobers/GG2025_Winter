@@ -334,6 +334,8 @@ screen navigation():
 
         textbutton _("About") action ShowMenu("about")
 
+        textbutton _("Credits") action ShowMenu("credits")
+
         if renpy.variant("pc") or (renpy.variant("web") and not renpy.variant("mobile")):
 
             ## Help isn't necessary or relevant to mobile devices.
@@ -369,6 +371,7 @@ screen main_menu():
     tag menu
 
     add gui.main_menu_background
+    add Solid("#000") alpha 0.15
 
     ## This empty frame darkens the main menu.
     frame:
@@ -381,11 +384,13 @@ screen main_menu():
     if gui.show_name:
 
         vbox:
-            align (0.7, 0.3)
+            align (0.9, 0.1)
             style "main_menu_vbox"
 
-            text "[config.name!t]":
-                style "main_menu_title"
+            add "images/title.png" zoom 0.6
+
+            #text "[config.name!t]":
+            #    style "main_menu_title"
 
             # text "[config.version]":
             #     style "main_menu_version"
@@ -588,6 +593,46 @@ style about_label_text is gui_label_text
 style about_text is gui_text
 
 style about_label_text:
+    size gui.label_text_size
+
+
+## Credits screen ############################################################
+
+screen credits():
+
+    tag menu
+
+    ## This use statement includes the game_menu screen inside this one. The
+    ## vbox child is then included inside the viewport inside the game_menu
+    ## screen.
+    use game_menu(_("Credits"), scroll="viewport"):
+
+        style_prefix "credits"
+
+        vbox:
+            text _("Thanks for taking the time to look at our credits, these are the amazing people who worked on this game!\n")
+
+            label "Directors"
+            text _("- Game Director: Beatrice\n- Art Director: {a=https://zilingkosho.carrd.co/}Kosho子鈴{/a}\n")
+
+            label "Artists"
+            text _("- Character/Food/Gift/Microwave Art: {a=https://zilingkosho.carrd.co/}Kosho子鈴{/a}\n- Background/UI/Fridge Art: Aleks\n- {a=https://gamegoobers.itch.io/birthday-visit}Itch.io{/a} Assets: {a=https://www.instagram.com/konnor.mclean/}Konnor McLean{/a}\n")
+
+            label "Music and Sound"
+            text _("- Composer: {a=https://www.instagram.com/konnor.mclean/}Konnor McLean{/a}\n- Sound Designer: Ed\n")
+
+            label "Programming"
+            text _("- Game Programmer: Sean\n- UI Programmer: {a=https://nanananatalie.itch.io/}Natalie{/a}\n")
+
+            label "Story"
+            text _("- Writer: Beatrice\n")
+
+
+style credits_label is gui_label
+style credits_label_text is gui_label_text
+style credits_text is gui_text
+
+style credits_label_text:
     size gui.label_text_size
 
 

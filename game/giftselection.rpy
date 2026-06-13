@@ -20,6 +20,7 @@ screen giftselection():
         align (0.39, 0.18)
         at Transform(zoom = 0.5)
         action [SetVariable("selectedgift", "cologne"), Return()]
+
     imagebutton:
         focus_mask True
         idle "gift sprites/money before.png"
@@ -27,6 +28,7 @@ screen giftselection():
         align (0.05, 1.2)
         at Transform(zoom = 0.5)
         action [SetVariable("selectedgift", "money"), Return()]
+
     imagebutton:
         focus_mask True
         idle "gift sprites/notebook before.png"
@@ -34,6 +36,7 @@ screen giftselection():
         align (1.0, 0.36)
         at Transform(zoom = 0.5)
         action [SetVariable("selectedgift", "notebook"), Return()]
+
     imagebutton:
         focus_mask True
         idle "gift sprites/shirt before.png"
@@ -41,6 +44,7 @@ screen giftselection():
         align (0.45, 1.1)
         at Transform(zoom = 0.5)
         action [SetVariable("selectedgift", "shirt"), Return()]
+
     imagebutton:
         focus_mask True
         idle "gift sprites/socks before.png"
@@ -48,6 +52,7 @@ screen giftselection():
         align (0.88, 1.2)
         at Transform(zoom = 0.5)
         action [SetVariable("selectedgift", "socks"), Return()]
+        
     imagebutton:
         focus_mask True
         idle "gift sprites/watch before.png"

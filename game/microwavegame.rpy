@@ -26,8 +26,8 @@ screen microwavegame():
         xpadding 50 ypadding 25
         xalign 0.5 yalign 0.03
     frame:
-        background "#000a" 
-        text "[microwave_time:.1f]"
+        background "#fff" 
+        text "[microwave_time:.1f]" at timer_flicker font "fonts/e1234.ttf" size 36
         xalign 0.75 yalign 0.3
 
     # Draw Food
@@ -45,3 +45,9 @@ screen microwavegame():
 
     if start_timer:
         timer 0.1 action [SetVariable("microwave_time", microwave_time + 0.1), SetVariable("game_started", True)] repeat start_timer
+
+transform timer_flicker:
+    linear 0.04 alpha 0.0
+    pause 0.35
+    linear 0.04 alpha 0.7
+    repeat

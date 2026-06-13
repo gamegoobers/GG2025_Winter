@@ -41,10 +41,10 @@ label start:
     play sound "audio/PhoneNotifBuzz.ogg"
     pause(3)
     show phone at right, halfsize with easeinright 
-    "\"By the way, just dropped them off. {w=0.5}First time in a while they're spending their birthday with you, huh?\""
-    dad "{alpha=0.5}It's their birthday?" with hpunch
+    "\"Hey, just dropped them off. {w=0.5}First time in a while they're spending their birthday with you, eh?\""
+    dad "{alpha=0.5}It's their birthday?!" with hpunch
     dad "{alpha=0.5}What time is it?"
-    "{i}[[12:04 PM, {w=0.4}July 16th]"
+    "{i}[[12:04 PM, {w=0.4}March 16th]"
     play sound "audio/DoorKnock.ogg"
     hide phone with easeoutright 
     dad "{alpha=0.5}They're here? {w=0.5}But I have nothing prepared!"
@@ -58,22 +58,22 @@ label start:
     window hide dissolve
     $ menu_width = 300
     menu:
-        "June 16th":
+        "May 16th":
             $ performance += 0
             kid "Uh... {w=0.5}not quite..."
             dad "Oh... {w=0.5}sorry..."
-        "July 16th":
+        "March 16th":
             $ performance += 1
             kid "Yeah, {w=0.5}another year..."
-        "July 15th":
+        "March 15th":
             $ performance += 0
             kid "Uh... {w=0.5}not quite..."
             dad "Oh... {w=0.5}sorry..."
 
-    dad "How does some homemade lunch sound? {w=0.3}And of course, {w=0.1}I've got your present ready to go too!" 
+    dad "You must be hungry, {w=0.3}how does some homemade lunch sound? {w=0.3}And of course, {w=0.1}I've got your present ready to go too!" 
     dad "{alpha=0.5}Wait, I don't... {w=0.5}what am I going to do?"
-    kid "Yeah, sounds cool. {w=0.5}I have homework due soon so I asked Mom to pick me up at 3."
-    dad "Alright, no problem. Let's make your favourite meal together."
+    kid "Okay, sounds cool. {w=0.5}I have homework due soon so I asked Mom to pick me up at 3."
+    dad "Alright, no problem. Let me make you your favourite meal."
     dad "{alpha=0.5}What did they like to eat again?"
     kid "Okay."
     stop music fadeout 0.5
@@ -87,10 +87,10 @@ label kitchen:
 
     if selectedfood == "cup":
         show cup before at zoomed_and_centered with dissolve
-        dad "A little salty {w=0.15}but who doesn't like cup noodles?"
+        dad "A little bit salty {w=0.15}but who doesn't like cup noodles?"
     elif selectedfood == "spicy":
         show spicy before at zoomed_and_centered with dissolve
-        dad "They should be able to handle spice."
+        dad "They should be able to handle the spice."
     elif selectedfood == "mac":
         show mac before at zoomed_and_centered with dissolve
         dad "I remember making this for them all the time!"
@@ -102,9 +102,9 @@ label kitchen:
         dad "I'm pretty sure I made this using my ex-wife's recipe."
     elif selectedfood == "poptart":
         show poptart before at zoomed_and_centered with dissolve
-        dad "K's got a sweet tooth but... {w=0.3}this isn't really a meal {w=0.2}is it?"
+        dad "They have a sweet tooth but... {w=0.3}this isn't really a meal {w=0.2}is it?"
 
-    dad "Should be ready after [microwave_time_target:.0f] seconds in the Microwave."
+    dad "Should be ready after [microwave_time_target:.0f] seconds in the microwave."
     
     $ menu_width = 350
     menu:
@@ -144,20 +144,20 @@ label kitchen:
         kid "Um... {w=0.5}maybe I didn't say it before but I don't really like this."
         dad "Really? {w=0.5}Why didn't you tell me?"
 
-    kid "{alpha=0.5}*munch munch"
-    dad "So... {w=0.5}How is it?"
+    kid "{alpha=0.5}*munch munch*"
+    dad "So... {w=0.5}how is it?"
 
     # Perfect Performance
-    if abs(microwave_time_target - microwave_time) <= 0.75:
+    if abs(microwave_time_target - microwave_time) <= 0.3:
         $ performance += 2
         show kid hopeful temp behind table at halfsize
         kid "Wow... {w=0.5}it's good this time."
         dad "I think I've gotten the hang of it, {w=0.5}just took a lot of tries..."
     # Good Performance
-    elif abs(microwave_time_target - microwave_time) <= 1.5:
+    elif abs(microwave_time_target - microwave_time) <= 0.7:
         $ performance += 1
         show kid neutral temp behind table at halfsize
-        kid "It's palatable, {w=0.3}I'll get used to it."
+        kid "It's... {w=0.5}alright, {w=0.3}I'll get used to it."
         dad "At least it's not worse?"
     # Bad Performance
     else:
@@ -176,7 +176,7 @@ label conversation_start:
             jump conversation_recent
 
 label conversation_school:
-    kid "It's fine I guess"
+    kid "It's fine I guess."
     $ menu_width = 500
     menu:
         "How are your grades?":
@@ -192,13 +192,13 @@ label conversation_grades:
             $ performance += 1
             kid "Fine? {w=0.4}It's not like I'm failing..."
             dad "Well {w=0.2}what do your teachers think?"
-            kid "They haven't given much feedback yet."
+            kid "Again, they haven't given much feedback."
             dad "...Okay."
             dad "{alpha=0.5}Maybe I should just drop it..."
 
-        "You can tell me if you're doing bad at school":
+        "You can tell me if you're doing bad at school.":
             $ performance += 0
-            kid "I'm not, {w=0.3}I'm doing fine. {w=0.3}Why do you have to assume the worst?"
+            kid "I'm doing fine. {w=0.3}Why do you have to assume the worst?"
             dad "I'm trying to help here."
             kid "It feels like you're putting me on trial."
             dad ".{cps=1}.."
@@ -214,8 +214,8 @@ label conversation_direction:
             $ performance += 0
             kid "No... {w=0.3}I don't think I want to."
             dad "Why not?"
-            kid "Seems stressful."
-            kid "You're always working until late and complaining about still not being a partner after so many years."
+            kid "Sounds stressful."
+            kid "You're always working late and complaining about still not being a partner after so many years."
             dad "But... {w=0.3}at least it pays well?"
             dad "{alpha=0.5}Did I really vent about work that much?"
 
@@ -233,20 +233,22 @@ label conversation_direction:
 label conversation_recent:
     kid "Nothing much..."
     kid "Actually, {w=0.5}I did compete recently."
-    dad "Oh cool, {w=0.4}was it in..."
+    dad "Oh cool. {w=0.4}It was for..."
     $ menu_width = 500
     menu:
         "Basketball?":
             $ performance += 0
+            dad "Right?"
             kid "No... {w=0.3}that's more your thing."
             dad "What? {w=0.4}I remember you loved it!"
             kid "You're remembering wrong. {w=0.3}You're the one who asked my teacher to put me on the team. {w=0.3}I never wanted to."
             dad "I only made a suggestion based on your gym class marks. {w=0.4}You can't just sit at home all day drawing scribbles."
-            kid ".{cps=2}.. {/cps}{w=0.5}Scribbles?"
+            kid ".{cps=2}.. {/cps}{w=0.5}scribbles?"
             dad "{alpha=0.5}Ah, {w=0.3}that probably was too harsh..."
 
         "Art?":
             $ performance += 2
+            dad "Right?"
             kid "Yeah, {w=0.3}it was."
             kid "There was a contest at school that my teacher recommended I enter."
             dad "So how did it go? {w=0.3}First place?"
@@ -256,12 +258,13 @@ label conversation_recent:
             
         "Piano?":
             $ performance += 1
-            kid "No... {w=0.3}I haven't played piano in a while..."
+            dad "Right?"
+            kid "No... {w=0.3}I haven't played in a while..."
             dad "Really? {w=0.3}I remember you loved it!"
             kid "When I was younger... {w=0.2}maybe..."
-            kid "I mainly went along with it since you and mom kept taking me to lessons."
+            kid "I mainly went along with it since you and Mom kept taking me to lessons."
             dad "Your piano teacher said you were really good, {w=0.3}like {w=0.3}competition level!"
-            kid "That's not quite something I wanted to do..."
+            kid "That's not really something I wanted to do..."
             dad "Oh.{cps=2}.."
 
     jump conversation_end
@@ -270,7 +273,7 @@ label conversation_end:
     pause 1.5
     dad ".{cps=1}.."
     kid ".{cps=1}.."
-    dad "{alpha=0.5}I've run out of things to talk about, {w=0.3}maybe it's time to give them their gift."
+    dad "{alpha=0.5}I've run out of things to talk about. {w=0.3}Maybe it's time to give them their gift?"
     dad "{alpha=0.5}But I don't have anything! {w=0.3}I'll have to see what I can pass off as one."
     dad "Before you go, {w=0.3}I'll give you your birthday gift! {w=0.3}Just give me a second to grab it!"
     kid "Oh, {w=0.4}okay."
@@ -282,7 +285,7 @@ label giftpicking:
 
     if selectedgift == "book":
         show book after at zoomed_and_centered with dissolve
-        dad "A casebook, {w=0.3}must have taken this one from work, but they won't notice it being missing."
+        dad "A casebook. {w=0.3}Must have taken this one from work, but they won't notice it being missing."
     elif selectedgift == "cologne":
         show cologne after at zoomed_and_centered with dissolve
         dad "Mmm, {w=0.5}top notes of whiskey and charcoal..."
@@ -317,7 +320,7 @@ label giftpicking:
     # Likes Gift
     if selectedgift == "notebook":
         $ performance += 2
-        kid "Oh, {w=0.3}did mom tell you to get this? {w=0.3}I've been wanting a new notebook."
+        kid "Oh, {w=0.3}did Mom tell you to get this? {w=0.3}I've been wanting a new notebook."
     # Tolerates Gift
     elif selectedgift == "shirt" or selectedgift == "money" or selectedgift == "watch":
         $ performance += 1
@@ -329,37 +332,40 @@ label giftpicking:
  
 label ending:
 
-    show kid neutral temp at halfsize, truecenter with move
 
     # Good Ending
-    if performance >= 6: #try out with 8
-        kid "Hey dad... {w=0.5}Can I talk to you about something?"
+    if performance >= 8:
+        show kid awkward temp at halfsize, truecenter with move
+        kid ".{cps=1}.."
+        kid "Hey Dad... {w=0.5}can I talk to you about something?"
         dad "Yeah, {w=0.5}what's up?"
         kid "So... {w=0.8}I've been seeing someone... {w=0.8}and they're really important to me..."
         kid "It's been getting kinda serious {w=0.5}and we've been talking about meeting each other's parents."
-        kid "but I've been hesitating on it..."
-        kid "But also, {w=0.5}it does feel like I can open up to you more now."
+        show kid neutral temp at halfsize, truecenter with move
+        kid "But I've been hesitating on it..."
+        kid "But also, {w=0.5}it feels like I can open up to you more now."
         dad "Oh kiddo... {w=1.0}you know I'm always here for you."
         dad "I messed up when you were growing up."
         dad "I was too focused on work to not notice my family crumbling."
         dad "Leaving the housework to your mom... {w=0.3}dismissing your hobbies..."
-        dad "I'm sorry... {w=0.3}I haven't been present when I should have. {w=0.3}It took a long time to realize that."
+        dad "I'm sorry... {w=0.3}I should have been more present. {w=0.3}It took a long time to realize that."
         kid "I'm sorry too, {w=0.3}I could have been less guarded around you."
-        kid "It was nice spending my birthday with you, {w=0.8}it reminded me of when I was little. {w=0.5}Thanks for the gift too."
-        kid "Oh {w=0.2}and I'll text you later about when and where we can have dinner with my partner."
+        kid "It was nice spending my birthday with you. {w=0.8}It reminds me of when I was little. {w=0.5}Thanks for the gift too."
+        kid "Oh {w=0.2}and I'll text you later about dinner with my partner."
         dad "Sounds great. {w=0.4}How about a hug for the road?"
         kid "Sure."
         scene bg hug with fade
         show hug at halfsize, truecenter with dissolve
         pause 2.0
-        dad "{cps=*0.65}I love you."
+        dad "{cps=*0.65}I love you. Happy birthday kiddo."
         kid "{cps=*0.65}I love you too, {w=0.3}Dad."
 
     # Neutral Ending
-    elif performance >= 3:
+    elif performance >= 4:
+        show kid neutral temp at halfsize, truecenter with move
         play sound "audio/PhoneNotifBuzz.ogg"
         pause(3.0)
-        kid "Hey Dad, {w=0.8}Mom said she's here. {w=0.5}I better get going, {w=0.5} I wouldn't want to make her wait."
+        kid "Hey Dad, {w=0.8}Mom said she's here. {w=0.5}I better get going, {w=0.5} I don't want to make her wait."
         dad "Already?"
         show phone at right, halfsize with easeinright 
         "{i}[[3:00PM]"
@@ -370,33 +376,55 @@ label ending:
         show bg doorway with dissolve
         hide kid with dissolve
         pause 3.0
-        dad "{alpha=0.5}{i}sigh {/i}{w=0.5}I messed up their birthday again huh? {w=0.3}I don't know how to make that kid happy."
-        dad "{alpha=0.5}I guess I could have made more of an effort to remember their birthday, {w=0.3}but it's so hard to read that kid."
+        dad "{alpha=0.5}{i}sigh {/i}{w=0.5}I never can make that kid happy."
+        dad "{alpha=0.5}I guess I should have made more of an effort to remember their birthday, {w=0.3}but it's so hard to read them."
         dad "I wonder what I could have done differently..."
 
     # Bad Ending
     else:
+        show kid neutral temp at halfsize, truecenter with move
         pause 3.0
         kid "You know what... {w=0.3}I think I'm going to go now."
         dad "So soon? {w=0.3}But, you just got here."
-        kid "Yeah... {w=0.3}I don't know what I expected coming here."
+        kid "Yeah... {w=0.3}I don't know what I even expected coming here."
         kid "I thought maybe for my birthday you would have made more of an effort."
-        dad "That's not true. {w=0.3}I always put in effort for you."
-        kid "And this was the best you could do? {w=0.3}It doesn't even feel like you remembered it's my birthday today."
+        dad "That's not true! {w=0.3}I always put in effort for you!"
+        kid "Really? {w=0.3}And this was the best you could do? {w=0.3}Stop lying!"
+        kid "It doesn't even feel like you remembered it's my birthday."
         kid "It's clear you don't really care."
-        dad "No, {w=0.15}I do! {w=0.3}I'll try better next time!"
-        kid "{w=0.3}Forget next time! {w=0.3}I've already given you 20 chances at my birthday!" with hpunch
-        dad "How am I supposed to know when you don't talk to me about anything?"
-        kid "That's your job! {w=0.3}You're supposed to be comfortable to be around so that I can be myself when I'm with you." with hpunch
-        kid "I see you regularly just cause you're my dad, {w=0.3}but it feels like we both don't want to be here."
+        dad "No, {w=0.15}I do! {w=0.3}Next time... {w=0.3}I'll try better next time!"
+        kid "{w=0.3}Forget next time! {w=0.3}I've already given you 18 chances at my birthday!" with hpunch
+        dad "Well, how am I supposed to know when you don't talk to me about anything?!"
+        kid "That's your job! {w=0.3}Maybe if you weren't forcing me to compensate for your own failures, I can be myself when I'm with you." with hpunch
+        kid "I only see you regularly just cause you're my dad, {w=0.3}but it feels like we both don't want to be here."
         dad "{alpha=0.5}No... {w=0.3}this isn't how it's supposed to go..."
         dad "Hey, {w=0.3}I-{nw}"
-        kid "I'll rip off the bandaid here and say that we don't have to force ourselves to see each other regularly."
+        kid "I don't care! {w=0.3}I'll rip off the bandaid here. {w=0.3}I don't want to see you anymore."
         kid "Goodbye."
         hide kid with dissolve
         pause 4.0
-        dad "{alpha=0.5}How did it go so wrong? {w=0.3}Is there any coming back from this?"
+        dad "{alpha=0.5}How did it go so wrong? {w=0.3}Is there no coming back from this?"
         dad "I wonder what I could have done differently..."
+
+    jump result
+
+label result:
+
+    scene black with fade
+
+    if performance >= 8:
+            "Congratulations you got the good ending! Hopefully this isn't your first run and you've already seen the neutral and bad endings." 
+            "Otherwise please try to achieve those too!"
+            "Thanks for playing!"
+
+    elif performance >= 4:
+            "You got the neutral ending. Try to get the good or bad endings if you haven't already!"
+            "Thanks for playing!"
+    else:
+            "Unfortunately you got the bad ending. Try your best to get the good or neutral ending if you haven't yet!"
+            "Thanks for playing!"
+        
+    with dissolve
 
     return
 
